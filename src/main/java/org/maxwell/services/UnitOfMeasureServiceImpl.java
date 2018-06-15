@@ -1,32 +1,28 @@
 package org.maxwell.services;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 import org.maxwell.commands.UnitOfMeasureCommand;
 import org.maxwell.converters.UnitOfMeasureToUnitOfMeasureCommand;
-import org.maxwell.repositories.UnitOfMeasureRepository;
+import org.maxwell.reactive.repositories.UnitOfMeasureReactiveRepository;
 import org.springframework.stereotype.Service;
 
+import reactor.core.publisher.Flux;
 
 @Service
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
-    private final UnitOfMeasureRepository unitOfMeasureRepository;
-    private final UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
+	private final UnitOfMeasureReactiveRepository uomReactiveRepository;
+	private final UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
 
-    public UnitOfMeasureServiceImpl(UnitOfMeasureRepository unitOfMeasureRepository, UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
-        this.unitOfMeasureRepository = unitOfMeasureRepository;
-        this.unitOfMeasureToUnitOfMeasureCommand = unitOfMeasureToUnitOfMeasureCommand;
-    }
+	public UnitOfMeasureServiceImpl(UnitOfMeasureReactiveRepository uomReactiveRepository,
+			UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
+		this.uomReactiveRepository = uomReactiveRepository;
+		this.unitOfMeasureToUnitOfMeasureCommand = unitOfMeasureToUnitOfMeasureCommand;
+	}
 
-    @Override
-    public Set<UnitOfMeasureCommand> listAllUoms() {
-
-        return StreamSupport.stream(unitOfMeasureRepository.findAll()
-                .spliterator(), false)
-                .map(unitOfMeasureToUnitOfMeasureCommand::convert)
-                .collect(Collectors.toSet());
-    }
+	@Override
+	public Flux<UnitOfMeasureCommand> listAllUoms() {
+		return uomReactiveRepository
+				.findAll()
+				.map(unitOfMeasureToUnitOfMeasureCommand::convert);
+	}
 }

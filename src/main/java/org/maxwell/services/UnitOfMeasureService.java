@@ -1,10 +1,9 @@
 package org.maxwell.services;
 
-import java.util.Set;
-
 import org.maxwell.commands.UnitOfMeasureCommand;
 
-public interface UnitOfMeasureService {
+import reactor.core.publisher.Flux;
 
-	Set<UnitOfMeasureCommand> listAllUoms();
+public interface UnitOfMeasureService {
+	Flux<UnitOfMeasureCommand> listAllUoms();
 }

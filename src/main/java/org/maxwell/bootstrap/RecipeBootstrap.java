@@ -11,13 +11,9 @@ import org.maxwell.domain.Ingredient;
 import org.maxwell.domain.Notes;
 import org.maxwell.domain.Recipe;
 import org.maxwell.domain.UnitOfMeasure;
-import org.maxwell.reactive.repositories.CategoryReactiveRepository;
-import org.maxwell.reactive.repositories.RecipeReactiveRepository;
-import org.maxwell.reactive.repositories.UnitOfMeasureReactiveRepository;
 import org.maxwell.repositories.CategoryRepository;
 import org.maxwell.repositories.RecipeRepository;
 import org.maxwell.repositories.UnitOfMeasureRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -33,15 +29,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 	private final RecipeRepository recipeRepository;
 	private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-	@Autowired
-	UnitOfMeasureReactiveRepository uomReactiveRepository;
-
-	@Autowired
-	CategoryReactiveRepository categoryReactiveRepository;
-
-	@Autowired
-	RecipeReactiveRepository recipeReactiveRepository;
-
 	public RecipeBootstrap(CategoryRepository categoryRepository, RecipeRepository recipeRepository,
 			UnitOfMeasureRepository unitOfMeasureRepository) {
 		this.categoryRepository = categoryRepository;
@@ -56,10 +43,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 		loadUom();
 		recipeRepository.saveAll(getRecipes());
 		log.debug("Loading Bootstrap Data");
-		/*log.error("*****");
-		log.error("UOM Count:" + uomReactiveRepository.count().block().toString());
-		log.error("Category Count:" + categoryReactiveRepository.count().block().toString());
-		log.error("Recipe Count:" + recipeReactiveRepository.count().block().toString());*/
 	}
 
 	private void loadCategories() {
