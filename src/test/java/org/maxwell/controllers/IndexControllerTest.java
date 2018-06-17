@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.maxwell.domain.Recipe;
 import org.maxwell.services.RecipeService;
@@ -26,6 +27,7 @@ import org.springframework.ui.Model;
 
 import reactor.core.publisher.Flux;
 
+@Ignore
 public class IndexControllerTest {
 
 	@Mock
